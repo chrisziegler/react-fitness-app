@@ -21,17 +21,26 @@ export default class extends Component {
     );
   }
 
-  handleCategorySelected = category => {
+  handleCategorySelect = category => {
     this.setState({
       category
     });
   };
 
-  handleExerciseSelected = id => {
+  handleExerciseSelect = id => {
     // this returns an object so we use the extra parens in arrow function ({})
     // to differntiate from the standard (and unneccassary) curly bracket syntax
     this.setState(({ exercises }) => ({
       exercise: exercises.find(ex => ex.id === id)
+    }));
+  };
+
+  handleExerciseCreate = exercise => {
+    this.setState(({ exercises }) => ({
+      exercises: {
+        ...exercises,
+        exercise
+      }
     }));
   };
 
@@ -41,17 +50,20 @@ export default class extends Component {
       { category, exercise } = this.state;
     return (
       <Fragment>
-        <Header />
+        <Header
+          muscles={muscles}
+          onExerciseCreate={this.handleExerciseCreate}
+        />
         <Exercises
           exercise={exercise}
           exercises={exercises}
           category={category}
-          onSelect={this.handleExerciseSelected}
+          onSelect={this.handleExerciseSelect}
         />
         <Footer
           category={category}
           muscles={muscles}
-          onSelect={this.handleCategorySelected}
+          onSelect={this.handleCategorySelect}
         />
       </Fragment>
     );
