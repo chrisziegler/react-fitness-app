@@ -10,7 +10,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle
-} from 'material-ui-next/Dialog';
+} from 'material-ui/Dialog';
 // again this is an approach requiring enabling tree shaking in project
 // have to see if this requires ejecting CRA to get at Webpack
 import { Add } from 'material-ui-icons';
@@ -37,29 +37,45 @@ export default withStyles(styles)(
     };
 
     handleToggle = () => {
-      this.setState({ open: !this.state.open });
+      this.setState({
+        open: !this.state.open
+      });
     };
 
     handleChange = name => ({ target: { value } }) => {
-      this.setState = {
+      this.setState({
         exercise: {
-          // reach out to the state and spread all properties from exercise
-          // to retain their potential values as we create/set a name property
           ...this.state.exercise,
-          // set the value to the name property, creating it in state
           [name]: value
         }
-      };
+      });
     };
 
     handleSubmit = () => {
-      // todo validate form
+      // remember to validate form
       const { exercise } = this.state;
-      this.props.onCreate(exercise);
+
+      this.props.onCreate({
+        ...exercise,
+        id: exercise.title.toLocaleLowerCase().replace(/ /g, '-')
+      });
+
+      // clear old state - clear modal form
+      this.setState({
+        open: false,
+        exercise: {
+          title: '',
+          description: '',
+          muscles: ''
+        }
+      });
     };
 
     render() {
-      const { open, exercise: { title, description, muscles } } = this.state,
+      const {
+          open,
+          exercise: { title, description, muscles }
+        } = this.state,
         { classes, muscles: categories } = this.props;
       return (
         <Fragment>

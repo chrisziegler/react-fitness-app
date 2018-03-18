@@ -13,9 +13,11 @@ export default class extends Component {
     return Object.entries(
       this.state.exercises.reduce((exercises, exercise) => {
         const { muscles } = exercise;
+
         exercises[muscles] = exercises[muscles]
           ? [...exercises[muscles], exercise]
           : [exercise];
+
         return exercises;
       }, {})
     );
@@ -37,16 +39,15 @@ export default class extends Component {
 
   handleExerciseCreate = exercise => {
     this.setState(({ exercises }) => ({
-      exercises: {
+      exercises: [
         ...exercises,
         exercise
-      }
+      ]
     }));
   };
 
   render() {
     const exercises = this.getExercisesByMuscles(),
-      // exercise is the currently selected exercise from handleExerciseSelected
       { category, exercise } = this.state;
     return (
       <Fragment>
