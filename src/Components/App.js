@@ -10,16 +10,29 @@ export default class extends Component {
   };
 
   getExercisesByMuscles() {
+    // added this data structure to keep category label from being deleted
+    // from list when all exercises have been deleted by handleExerciseDelete
+    const initExercises = muscles.reduce(
+      (acc, muscles) => ({
+        ...acc,
+        [muscles]: []
+      }),
+      {}
+    );
+
     return Object.entries(
       this.state.exercises.reduce((exercises, exercise) => {
         const { muscles } = exercise;
+        exercises[muscles] = [...exercises[muscles], exercise];
 
-        exercises[muscles] = exercises[muscles]
-          ? [...exercises[muscles], exercise]
-          : [exercise];
-
+        // No longer need this conditional as exercises/initExercises will now
+        // always have a category for each of our hardcoded muscles groups, even
+        // if that is a key to an empty array.
+        // exercises[muscles] = exercises[muscles]
+        //   ? [...exercises[muscles], exercise]
+        //   : [exercise];
         return exercises;
-      }, {})
+      }, initExercises)
     );
   }
 
@@ -39,10 +52,14 @@ export default class extends Component {
 
   handleExerciseCreate = exercise => {
     this.setState(({ exercises }) => ({
-      exercises: [
-        ...exercises,
-        exercise
-      ]
+      // spreads out prevState, pushes/concats new exercise object into array
+      exercises: [...exercises, exercise]
+    }));
+  };
+
+  handleExerciseDelete = id => {
+    this.setState(({ exercises }) => ({
+      exercises: exercises.filter(ex => ex.id !== id)
     }));
   };
 
@@ -60,6 +77,7 @@ export default class extends Component {
           exercises={exercises}
           category={category}
           onSelect={this.handleExerciseSelect}
+          onDelete={this.handleExerciseDelete}
         />
         <Footer
           category={category}
