@@ -24,13 +24,6 @@ export default class extends Component {
       this.state.exercises.reduce((exercises, exercise) => {
         const { muscles } = exercise;
         exercises[muscles] = [...exercises[muscles], exercise];
-
-        // No longer need this conditional as exercises/initExercises will now
-        // always have a category for each of our hardcoded muscles groups, even
-        // if that is a key to an empty array.
-        // exercises[muscles] = exercises[muscles]
-        //   ? [...exercises[muscles], exercise]
-        //   : [exercise];
         return exercises;
       }, initExercises)
     );
@@ -50,22 +43,38 @@ export default class extends Component {
     }));
   };
 
-  handleExerciseCreate = exercise => {
+  handleExerciseCreate = exercise =>
     this.setState(({ exercises }) => ({
       // spreads out prevState, pushes/concats new exercise object into array
       exercises: [...exercises, exercise]
     }));
-  };
 
-  handleExerciseDelete = id => {
+  handleExerciseDelete = id =>
     this.setState(({ exercises }) => ({
       exercises: exercises.filter(ex => ex.id !== id)
     }));
-  };
+
+  handleExerciseSelectEdit = id =>
+    this.setState(({ exercises }) => ({
+      exercise: exercises.find(ex => ex.id === id),
+      editMode: true
+    }));
+  // Again, we need to call a callback that accpets the prevState
+  // which we pull exercises off
+  handleExerciseEdit = exercise =>
+    this.setState(({ exercises }) => ({
+      exercises: [
+        // extract all of the elements to a new array
+        // and append our new exercise to the end of that array
+        ...exercises.filter(ex => ex.id !== exercise.id),
+        exercise
+      ],
+      exercise
+    }));
 
   render() {
     const exercises = this.getExercisesByMuscles(),
-      { category, exercise } = this.state;
+      { category, exercise, editMode } = this.state;
     return (
       <Fragment>
         <Header
@@ -75,9 +84,13 @@ export default class extends Component {
         <Exercises
           exercise={exercise}
           exercises={exercises}
+          editMode={editMode}
           category={category}
+          muscles={muscles}
           onSelect={this.handleExerciseSelect}
           onDelete={this.handleExerciseDelete}
+          onSelectEdit={this.handleExerciseSelectEdit}
+          onEdit={this.handleExerciseEdit}
         />
         <Footer
           category={category}

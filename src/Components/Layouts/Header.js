@@ -2,7 +2,7 @@ import React from 'react';
 // import AppBar from "material-ui-next/AppBar";
 // import Toolbar from "material-ui-next/Toolbar";
 import { AppBar, Toolbar, Typography } from 'material-ui';
-import CreateDialog from '../Exercises/Dialogs/Create';
+import CreateDialog from '../Exercises/Dialog';
 
 export default ({ muscles, onExerciseCreate }) => (
   <AppBar position="static">
