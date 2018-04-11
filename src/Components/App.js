@@ -39,7 +39,8 @@ export default class extends Component {
     // this returns an object so we use the extra parens in arrow function ({})
     // to differntiate from the standard (and unneccassary) curly bracket syntax
     this.setState(({ exercises }) => ({
-      exercise: exercises.find(ex => ex.id === id)
+      exercise: exercises.find(ex => ex.id === id),
+      editMode: false
     }));
   };
 
@@ -51,7 +52,9 @@ export default class extends Component {
 
   handleExerciseDelete = id =>
     this.setState(({ exercises }) => ({
-      exercises: exercises.filter(ex => ex.id !== id)
+      exercises: exercises.filter(ex => ex.id !== id),
+      editMode: false,
+      exercise: {}
     }));
 
   handleExerciseSelectEdit = id =>
@@ -69,7 +72,8 @@ export default class extends Component {
         ...exercises.filter(ex => ex.id !== exercise.id),
         exercise
       ],
-      exercise
+      exercise,
+      editMode: false
     }));
 
   render() {

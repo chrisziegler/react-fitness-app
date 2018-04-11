@@ -40,7 +40,7 @@ export default withStyles(styles)(
 
     handleSubmit = () => {
       // remember to validate form!!
-
+      // calls handleExerciseEdit back in App
       this.props.onSubmit({
         id: this.state.title.toLocaleLowerCase().replace(/ /g, '-'),
         ...this.state
