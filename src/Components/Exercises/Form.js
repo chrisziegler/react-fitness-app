@@ -27,11 +27,15 @@ export default withStyles(styles)(
           };
     }
 
-    componentWillReceiveProps({ exercise }) {
-      this.setState({
-        ...exercise
-      });
+    static getDerivedStateFromProps({ exercise }) {
+      return exercise || null;
     }
+    // replaced - UNSAFE React16 w/above
+    // componentWillReceiveProps({ exercise }) {
+    //   this.setState({
+    //     ...exercise
+    //   });
+    // }
 
     handleChange = name => ({ target: { value } }) =>
       this.setState({
@@ -42,7 +46,9 @@ export default withStyles(styles)(
       // remember to validate form!!
       // calls handleExerciseEdit back in App
       this.props.onSubmit({
-        id: this.state.title.toLocaleLowerCase().replace(/ /g, '-'),
+        id: this.state.title
+          .toLocaleLowerCase()
+          .replace(/ /g, '-'),
         ...this.state
       });
       // clear old state - clear modal form
@@ -51,7 +57,11 @@ export default withStyles(styles)(
 
     render() {
       // moved entire from Create in refactor
-      const { classes, exercise, muscles: categories } = this.props,
+      const {
+          classes,
+          exercise,
+          muscles: categories
+        } = this.props,
         { title, description, muscles } = this.state;
       return (
         <form>
@@ -65,7 +75,10 @@ export default withStyles(styles)(
           <br />
           <FormControl className={classes.FormControl}>
             <InputLabel htmlFor="muscles">Muscles</InputLabel>
-            <Select value={muscles} onChange={this.handleChange('muscles')}>
+            <Select
+              value={muscles}
+              onChange={this.handleChange('muscles')}
+            >
               {categories.map(category => (
                 <MenuItem key={category} value={category}>
                   {category}
@@ -84,7 +97,11 @@ export default withStyles(styles)(
             className={classes.FormControl}
           />
           <br />
-          <Button color="primary" variant="raised" onClick={this.handleSubmit}>
+          <Button
+            color="primary"
+            variant="raised"
+            onClick={this.handleSubmit}
+          >
             {exercise ? 'Edit' : 'Create'}
           </Button>
         </form>

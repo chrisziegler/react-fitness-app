@@ -1,11 +1,17 @@
 import React, { Fragment } from 'react';
-import { Grid, Paper, Typography, List, IconButton } from 'material-ui';
+import {
+  Grid,
+  Paper,
+  Typography,
+  List,
+  IconButton
+} from 'material-ui';
 import {
   ListItem,
   ListItemText,
   ListItemSecondaryAction
 } from 'material-ui/List';
-import { Delete, Edit } from 'material-ui-icons';
+import { Delete, Edit } from '@material-ui/icons';
 import Form from './Form';
 
 const styles = {
@@ -49,13 +55,21 @@ export default ({
                 </Typography>
                 <List component="ul">
                   {exercises.map(({ id, title }) => (
-                    <ListItem button key={id} onClick={() => onSelect(id)}>
+                    <ListItem
+                      button
+                      key={id}
+                      onClick={() => onSelect(id)}
+                    >
                       <ListItemText primary={title} />
                       <ListItemSecondaryAction>
-                        <IconButton onClick={() => onSelectEdit(id)}>
+                        <IconButton
+                          onClick={() => onSelectEdit(id)}
+                        >
                           <Edit />
                         </IconButton>
-                        <IconButton onClick={() => onDelete(id)}>
+                        <IconButton
+                          onClick={() => onDelete(id)}
+                        >
                           <Delete />
                         </IconButton>
                       </ListItemSecondaryAction>
@@ -70,11 +84,20 @@ export default ({
     <Grid item xs={12} sm={6}>
       <Paper style={styles.Paper}>
         {editMode ? (
-          <Form muscles={muscles} onSubmit={onEdit} exercise={exercise} />
+          <Form
+            muscles={muscles}
+            onSubmit={onEdit}
+            exercise={exercise}
+          />
         ) : (
           <Fragment>
-            <Typography variant="display1">{title}</Typography>
-            <Typography variant="subheading" style={{ marginTop: 15 }}>
+            <Typography variant="display1">
+              {title}
+            </Typography>
+            <Typography
+              variant="subheading"
+              style={{ marginTop: 15 }}
+            >
               {description}
             </Typography>
           </Fragment>

@@ -13,7 +13,8 @@ import {
 } from 'material-ui/Dialog';
 // again this is an approach requiring enabling tree shaking in project
 // have to see if this requires ejecting CRA to get at Webpack
-import { Add } from 'material-ui-icons';
+// import { Add } from 'material-ui-icons';
+import { Add } from '@material-ui/icons';
 
 export default class extends Component {
   state = {
@@ -38,15 +39,24 @@ export default class extends Component {
 
     return (
       <Fragment>
-        <Button variant="fab" onClick={this.handleToggle} mini>
+        <Button
+          variant="fab"
+          onClick={this.handleToggle}
+          mini
+        >
           <Add />
         </Button>
 
         <Dialog open={open} onClose={this.handleToggle}>
           <DialogTitle>Create a New Exercise</DialogTitle>
           <DialogContent>
-            <DialogContentText>Please fill out a form below</DialogContentText>
-            <Form muscles={muscles} onSubmit={this.handleFormSubmit} />
+            <DialogContentText>
+              Please fill out a form below
+            </DialogContentText>
+            <Form
+              muscles={muscles}
+              onSubmit={this.handleFormSubmit}
+            />
           </DialogContent>
         </Dialog>
       </Fragment>

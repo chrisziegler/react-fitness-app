@@ -23,7 +23,10 @@ export default class extends Component {
     return Object.entries(
       this.state.exercises.reduce((exercises, exercise) => {
         const { muscles } = exercise;
-        exercises[muscles] = [...exercises[muscles], exercise];
+        exercises[muscles] = [
+          ...exercises[muscles],
+          exercise
+        ];
         return exercises;
       }, initExercises)
     );
@@ -51,10 +54,10 @@ export default class extends Component {
     }));
 
   handleExerciseDelete = id =>
-    this.setState(({ exercises }) => ({
+    this.setState(({ exercises, exercise }) => ({
       exercises: exercises.filter(ex => ex.id !== id),
       editMode: false,
-      exercise: {}
+      exercise: exercise.id === id ? {} : exercise
     }));
 
   handleExerciseSelectEdit = id =>
